@@ -7,20 +7,19 @@ import {
   Entity,
   OneToMany,
   OneToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number
 
   @Column()
   name: string
 
-  @PrimaryColumn()
+  @Column()
   email: string
 
   @Column()
@@ -39,8 +38,13 @@ export class User {
   @OneToMany(() => Token, (token) => token.user, { onDelete: 'CASCADE' })
   tokens: Token[]
 
-  @OneToOne(() => Subscription, (subscription) => subscription.user)
+  @OneToOne(() => Subscription, (subscription) => subscription.user, {
+    cascade: true
+  })
   subscription: Subscription
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  lastActivity: Date
 
   @CreateDateColumn()
   createAt: Date

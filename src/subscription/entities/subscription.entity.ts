@@ -17,9 +17,15 @@ export class Subscription {
     type: 'enum',
     enum: SubscriptionType
   })
-  type: SubscriptionType
+  subscription_duration: SubscriptionType
+
+  @Column({ type: 'date' })
+  startAt: Date
+
+  @Column({ type: 'date' })
+  endAt: Date
 
   @OneToOne(() => User)
-  @JoinColumn()
+  @JoinColumn({ name: 'user_id' })
   user: User
 }
